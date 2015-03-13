@@ -1,0 +1,11 @@
+applications:
+- services:
+  - Wearable Fitness-50
+  - TravelBoundaryService-99
+  name: getmoarsteps
+  host: getmoarsteps
+  command: node app.js
+  path: .
+  domain: mybluemix.net
+  instances: 1
+  memory: 384M

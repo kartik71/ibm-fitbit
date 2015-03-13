@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Get Moar Steps - Today's Stats</title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+  </head>
+  <body>
+    <h1>Get Moar Steps: How Am I Doing?</h1>
+    <div class="container">
+    <% if (typeof no_data !== "undefined") { %>
+      <div class="status">
+        An error has occurred!
+        <div class="fbinfobox">
+          <% if (no_data === "early") { %>
+            It's really (really!) early in your day, and the Wearable API hasn't pulled
+            any data from your FitBit yet--why don't you go to sleep now and
+            check back in the morning!
+          <% } else if (no_data === "login") { %>
+            Check your login details; the server claims it can't log you in
+            with the provided details
+          <% } else { %>
+            A general error has occurred; details are below:
+          <% } %>
+          <div class="errorinfo">
+            <b>HTTP Code:</b> <%= httpCode %><br/>
+            <b>Message:</b> <%= httpMessage %><br/>
+            <b>More Info:</b> <%= moreInformation %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } else { %>
+      <div class="status">
+        <%= welcome_msg %>
+      </div>
+      <div class="fbinfobox">
+        <div class="fbdetail">
+          <% var pctGoal = summary.steps/goals.steps*100; %>
+          <b><%= pctGoal.toPrecision((pctGoal > 99) ? 3 : 2) %>%</b> of your daily goal.<br/>
+          <i>(<%= (daypercent).toPrecision(2) %>% of today is gone)</i><br/>
+          Fairly+highly active: <b><%= (summary.veryActiveMinutes+summary.fairlyActiveMinutes) %> min</b><br/>
+          Sleep+sedentary time: <b><%= (summary.sedentaryMinutes/60).toFixed(2) %> hrs</b>
+        </div>
+        <div>
+          <div class="steps"><%= (summary.steps).toString().split( /(?=(?:\d{3})+(?:\.|$))/g ).join( "," ) %></div>
+          <div style="">steps so far today.</div>
+        </div>
+      </div>
+
+      <div class="location-info">
+        <article>
+          <p style="font-style: italic;">Location: <span id="status">finding...</span></p>
+        </article>
+      </div>
+      <div class="near-info" id="div-near-1">
+        <form name="search-near" id="search-near" action="#" onsubmit="return searchNearMe();">
+          <div class="near-message">
+            Can we help you find a place to get more steps?
+          </div>
+          <table class="near-search">
+            <tr>
+              <td class="travel-time">Travel time:</td>
+              <td>
+                <div class="select-style">
+                  <select id="distance" name="distance">
+                    <option value="5" selected>5 Minutes</option>
+                    <option value="10">10 Minutes</option>
+                    <option value="15">15 Minutes</option>
+                    <option value="20">20 Minutes</option>
+                  </select>
+                </div>
+              </td>
+              <td>
+                <button class="btn btn-nearby" type="button" id='search' onclick="return searchNearMe();">Search</button>
+              </td>
+            </tr>
+          </table>
+          <input type="hidden" id="poslat" name="poslat" value=""/>
+          <input type="hidden" id="poslon" name="poslon" value=""/>
+        </form>
+        <div class="search-results" id="search-results">
+        </div>
+        <div class="throbber-div" id="throbber-div-1">
+          <img src="/images/throbber.gif" class="ajax-loader"/>
+        </div>
+      </div>
+ 	</div>
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+  <script type="text/javascript" src="/js/mustache.js"></script>
+  <script type="text/javascript" src="/js/iot.js"></script>
+  <% } %>
+  </body>
+</html>
