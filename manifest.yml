@@ -2,8 +2,8 @@ applications:
 - services:
   - Wearable Fitness-50
   - TravelBoundaryService-99
-  name: getmoarsteps
-  host: getmoarsteps
+  name: smartmover
+  host: smartmover
   command: node app.js
   path: .
   domain: mybluemix.net
